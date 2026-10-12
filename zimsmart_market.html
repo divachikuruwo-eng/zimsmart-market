@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#123c32">
+<title>ZimSmart Market</title>
+<style>
+:root{--green:#123c32;--lime:#d8f36a;--cream:#f7f6ef;--ink:#17231f;--muted:#68746e;--line:#e3e7df;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+header{background:var(--green);color:white;padding:22px 16px 26px;border-radius:0 0 24px 24px}
+.top{max-width:980px;margin:auto}.brand{font-size:13px;letter-spacing:1.5px;text-transform:uppercase;color:var(--lime);font-weight:800}
+h1{font-size:clamp(28px,7vw,42px);line-height:1.04;margin:12px 0 8px;max-width:620px}
+header p{color:#e0eae5;margin:0;line-height:1.5;max-width:600px}
+.searchrow{display:flex;gap:8px;margin-top:20px}.searchrow input{flex:1;min-width:0}
+input,select,textarea{font:inherit;padding:12px;border:1px solid var(--line);border-radius:12px;background:white;color:var(--ink);width:100%}
+button,.btn{border:0;border-radius:12px;padding:12px 14px;font-weight:750;cursor:pointer;text-decoration:none;display:inline-flex;justify-content:center;align-items:center;gap:6px}
+.searchrow button{background:var(--lime);color:var(--green)}
+main{max-width:980px;margin:0 auto;padding:20px 15px 44px}
+.notice{border:1px solid #e4e9d7;background:#f0f5df;padding:13px 14px;border-radius:14px;font-size:13px;line-height:1.5;margin-bottom:20px}
+.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:10px;margin:22px 0 12px}.sectionhead h2{font-size:22px;margin:0}.sectionhead span{font-size:12px;color:var(--muted)}
+.filters{display:flex;gap:8px;overflow:auto;padding:2px 0 12px}.filter{white-space:nowrap;background:#fff;border:1px solid var(--line);color:var(--ink);padding:9px 13px}.filter.active{background:var(--green);color:white}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.product{background:white;border:1px solid var(--line);border-radius:17px;overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.product-art{height:125px;display:grid;place-items:center;font-size:50px;background:linear-gradient(135deg,#e8f0d6,#f6e8cc)}
+.product-content{padding:12px;display:flex;flex-direction:column;gap:7px;flex:1}
+.tag{font-size:10px;text-transform:uppercase;letter-spacing:.8px;font-weight:800;color:#4b6b59}
+.product h3{margin:0;font-size:16px;line-height:1.25}.desc{font-size:12px;color:var(--muted);line-height:1.4;flex:1}.price{font-size:18px;font-weight:850}
+.contact{background:var(--green);color:white;width:100%;font-size:13px}.contact:active{transform:scale(.99)}
+.empty{grid-column:1/-1;text-align:center;padding:30px 12px;color:var(--muted)}
+.ad-slot{margin:22px 0;border:1px dashed #aab8ad;border-radius:15px;padding:17px;text-align:center;color:var(--muted);font-size:12px;background:#fff}
+.ad-slot strong{display:block;color:var(--green);margin-bottom:4px}
+details{background:white;border:1px solid var(--line);border-radius:16px;padding:15px;margin-top:14px}summary{font-weight:800;cursor:pointer}
+.formgrid{display:grid;gap:10px;margin-top:14px}.formgrid small{color:var(--muted);line-height:1.4}
+.formgrid button{background:var(--lime);color:var(--green)}
+footer{background:#e9ede5;padding:22px 16px;color:var(--muted);font-size:12px;line-height:1.6;text-align:center}
+@media(min-width:650px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.product-art{height:150px}.formgrid.two{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header><div class="top">
+<div class="brand">ZimSmart Market · Shop local</div>
+<h1>Good finds.<br>Smarter shopping.</h1>
+<p>Browse useful products and message the seller directly. Start small, shop smart.</p>
+<div class="searchrow"><input id="search" aria-label="Search products" placeholder="Search phones, fashion, home…"><button id="searchBtn">Search</button></div>
+</div></header>
+<main>
+<div class="notice"><strong>Demo shop:</strong> The products below are examples, not verified offers. Replace them with real products, confirmed prices and your own seller contact before sharing this page. Never collect payment for goods you cannot supply.</div>
+<div class="sectionhead"><h2>Browse products</h2><span id="count">6 listings</span></div>
+<div class="filters" id="filters">
+<button class="filter active" data-cat="All">All</button><button class="filter" data-cat="Phones">Phones</button><button class="filter" data-cat="Fashion">Fashion</button><button class="filter" data-cat="Home">Home</button><button class="filter" data-cat="Beauty">Beauty</button>
+</div>
+<div class="grid" id="products"></div>
+<div class="ad-slot"><strong>Advertising space</strong>Reserved for a future approved ad partner. No ads are running yet.</div>
+<details>
+<summary>Seller / shop owner: add or edit a listing</summary>
+<div class="formgrid two">
+<input id="pname" placeholder="Product name">
+<select id="pcat"><option>Phones</option><option>Fashion</option><option>Home</option><option>Beauty</option><option>Other</option></select>
+<input id="pprice" placeholder="Price e.g. $12">
+<input id="pemoji" placeholder="Product emoji e.g. 👟">
+</div>
+<div class="formgrid"><textarea id="pdesc" rows="2" placeholder="Short description"></textarea><input id="sellerPhone" placeholder="Your WhatsApp number, e.g. 2637XXXXXXXX"><button id="addBtn">Add product to this page</button><small>Listings added here stay in this browser session only; they are not uploaded to a public database. To make them visible to everyone, edit the product list in the file and republish it.</small></div>
+</details>
+<details>
+<summary>How can this shop make money?</summary>
+<p><strong>1. Start with free listings.</strong> Ask real sellers for permission to list their products, then help connect buyers and sellers.</p>
+<p><strong>2. Earn a disclosed referral fee.</strong> Agree with a seller in writing on a small commission for completed sales. Do not promise sales.</p>
+<p><strong>3. Add advertising later.</strong> An ad network may require an eligible site/app, original content, privacy disclosures, policy compliance and sufficient review/approval. Ad income is not guaranteed and is usually tiny without visitors.</p>
+<p><strong>4. Promote responsibly.</strong> Share the link in WhatsApp Status, Facebook groups where promotion is allowed, and TikTok. Don't spam or post fake products or reviews.</p>
+</details>
+</main>
+<footer>© <span id="year"></span> ZimSmart Market · Demo storefront<br>Buy safely: confirm seller identity, stock, delivery fees and payment terms before sending money.</footer>
+<script>
+const demoProducts=[
+ {name:"Android Smartphone",cat:"Phones",price:"$85",emoji:"📱",desc:"Example listing. Confirm model, condition and stock with seller."},
+ {name:"Wireless Earbuds",cat:"Phones",price:"$12",emoji:"🎧",desc:"Example listing. Confirm compatibility and warranty."},
+ {name:"Everyday Sneakers",cat:"Fashion",price:"$18",emoji:"👟",desc:"Example listing. Confirm available sizes and delivery."},
+ {name:"Casual Backpack",cat:"Fashion",price:"$15",emoji:"🎒",desc:"Example listing. Ask for real photos before ordering."},
+ {name:"Kitchen Storage Set",cat:"Home",price:"$10",emoji:"🍽️",desc:"Example listing. Confirm quantity and material."},
+ {name:"Skincare Set",cat:"Beauty",price:"$14",emoji:"🧴",desc:"Example listing. Check ingredients and expiry date."}
+];
+let products=[...demoProducts], category="All";
+const $=id=>document.getElementById(id);
+function waLink(phone,text){let clean=(phone||"").replace(/\D/g,"");if(clean.startsWith("0"))clean="263"+clean.slice(1);return clean.length>=10?"https://wa.me/"+clean+"?text="+encodeURIComponent(text):""}
+function render(){
+ const q=$("search").value.trim().toLowerCase();
+ const list=products.filter(p=>(category==="All"||p.cat===category)&&[p.name,p.cat,p.desc].join(" ").toLowerCase().includes(q));
+ $("count").textContent=list.length+" listing"+(list.length===1?"":"s");
+ $("products").innerHTML="";
+ if(!list.length){$("products").innerHTML='<div class="empty">No products found. Try another search.</div>';return}
+ list.forEach(p=>{
+  const card=document.createElement("article");card.className="product";
+  const art=document.createElement("div");art.className="product-art";art.textContent=p.emoji||"🛍️";
+  const content=document.createElement("div");content.className="product-content";
+  const tag=document.createElement("div");tag.className="tag";tag.textContent=p.cat;
+  const title=document.createElement("h3");title.textContent=p.name;
+  const desc=document.createElement("div");desc.className="desc";desc.textContent=p.desc;
+  const price=document.createElement("div");price.className="price";price.textContent=p.price;
+  const btn=document.createElement("a");btn.className="btn contact";btn.textContent="Message seller";btn.href="#";btn.addEventListener("click",e=>{e.preventDefault();const phone=$("sellerPhone").value;const url=waLink(phone,"Hello, I'm interested in "+p.name+" listed at "+p.price+". Is it available?");if(url)window.open(url,"_blank","noopener");else alert("Shop owner: open the seller section and enter a WhatsApp number first. Buyers should only message a verified seller.");});
+  content.append(tag,title,desc,price,btn);card.append(art,content);$("products").append(card);
+ });
+}
+document.querySelectorAll(".filter").forEach(btn=>btn.addEventListener("click",()=>{category=btn.dataset.cat;document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b===btn));render()}));
+$("search").addEventListener("input",render);$("searchBtn").addEventListener("click",render);
+$("addBtn").addEventListener("click",()=>{const name=$("pname").value.trim(),price=$("pprice").value.trim();if(!name||!price){alert("Please enter at least a product name and price.");return}products.unshift({name,cat:$("pcat").value,price,emoji:$("pemoji").value.trim()||"🛍️",desc:$("pdesc").value.trim()||"Contact the seller to confirm details."});$("pname").value=$("pprice").value=$("pemoji").value=$("pdesc").value="";category="All";document.querySelectorAll(".filter").forEach(b=>b.classList.toggle("active",b.dataset.cat==="All"));render();alert("Listing added to this open page. It is not online for other visitors yet.")});
+$("year").textContent=new Date().getFullYear();render();
+</script>
+</body></html>
